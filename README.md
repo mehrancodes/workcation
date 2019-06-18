@@ -3,7 +3,7 @@
 > For learning purpose from Adam Wathan video tutorial
 [Live preview](https://workcation.netlify.com/)
 
-Workcation is the demo project for the upcoming ["Designing with Tailwind CSS" course](https://tailwindcss.com/course/) I'm working on.
+Workcation is the demo project for the upcoming ["Designing with Tailwind CSS" course](https://tailwindcss.com/course/) Adam working on.
 
 ![](https://tailwindcss.com/img/workcation-screenshot.jpg)
 
