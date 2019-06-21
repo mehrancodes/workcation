@@ -22,36 +22,76 @@
       div(class='sm:block sm:flex sm:items-center')
         ul(class='px-2 py-3 sm:flex sm:border-b-0 sm:py-0 sm:text-sm text-white font-semibold leading-loose border-b border-gray-800 xl:text-gray-900')
           li
-            nuxt-link(to='#' class='px-2 py-1 sm:px-3 rounded block hover:bg-gray-800 xl:hover:bg-gray-200') List your property
+            nuxt-link(to='#' class='px-2 py-1 sm:px-3 rounded block hover:bg-gray-800') List your property
           li
-            nuxt-link(to='#' class='px-2 py-1 sm:px-3 rounded block hover:bg-gray-800 xl:hover:bg-gray-200') Trips
+            nuxt-link(to='#' class='px-2 py-1 sm:px-3 rounded block hover:bg-gray-800') Trips
           li
-            nuxt-link(to='#' class='px-2 py-1 sm:pl-3 rounded block hover:bg-gray-800 xl:hover:bg-gray-200') Messages
-        div(class='px-5 py-3 sm:px-0 sm:py-0 sm:ml-4')
-          div.flex.items-center
+            nuxt-link(to='#' class='px-2 py-1 sm:pl-3 rounded block hover:bg-gray-800') Messages
+        div(class='relative px-5 py-3 sm:px-0 sm:py-0 sm:ml-4')
+          div(class='flex items-center sm:hidden')
             img(
-              class='h-10 w-10 object-cover rounded-full border-2 border-gray-600 sm:h-8 sm:w-8 xl:border-gray-300'
+              class='h-10 w-10 object-cover rounded-full border-2 border-gray-600 xl:border-gray-300'
               src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80' alt='User Avatar'
             )
             span(class='ml-4 sm:hidden font-semibold text-gray-200') Isla Schoger
 
-          ul(class='mt-5 sm:hidden text-gray-400 leading-bigger')
-            li
-              nuxt-link(to='#' class='hover:text-white') Account settings
-            li
-              nuxt-link(to='#' class='hover:text-white') Support
-            li
-              nuxt-link(to='#' class='hover:text-white') Sign out
+          button(
+            type="button"
+            class='hidden sm:block sm:h-10 sm:w-10 sm:overflow-hidden sm:rounded-full sm:border-2 sm:border-gray-600 sm:focus:outline-none sm:focus:border-white xl:border-gray-300 xl:focus:border-blue-300'
+            @click='toggleDropDown'
+          )
+            img(
+              class='h-full w-full object-cover'
+              src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80' alt='User Avatar'
+            )
+
+          ul(
+            :class="[dropDownOpen ? 'sm:block' : 'sm:hidden']"
+            class='mt-5 text-gray-400 sm:absolute sm:right-0 sm:mt-3 sm:w-48 sm:py-2 sm:z-10 sm:bg-white sm:rounded-lg sm:shadow-xl sm:text-gray-800 xl:mt-5'
+          )
+            // This button doesn't let user click on another element
+            // outside of dropdown while closing it
+            button(
+              type='button'
+              class='hidden sm:block sm:fixed sm:opacity-0 sm:inset-0 sm:w-full sm:h-full sm:cursor-default'
+              @click='toggleDropDown'
+            )
+            li(class='sm:px-5 py-2 hover:text-white sm:hover:bg-indigo-500')
+              nuxt-link(to='#') Account settings
+            li(class='sm:px-5 py-2 hover:text-white sm:hover:bg-indigo-500')
+              nuxt-link(to='#') Support
+            li(class='sm:px-5 py-2 hover:text-white sm:hover:bg-indigo-500')
+              nuxt-link(to='#') Sign out
 </template>
 
 <script>
 export default {
   data: () => ({
-    navbarOpen: false
+    navbarOpen: false,
+    dropDownOpen: false
   }),
+  mounted() {
+    this.closeDropDown()
+  },
   methods: {
     toggle() {
       this.navbarOpen = !this.navbarOpen
+    },
+    toggleDropDown() {
+      this.dropDownOpen = !this.dropDownOpen
+    },
+    closeDropDown() {
+      document.addEventListener('click', e => {
+        if (!this.$el.contains(e.target)) {
+          this.dropDownOpen = false
+        }
+      })
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          this.dropDownOpen = false
+        }
+      })
     }
   }
 }
